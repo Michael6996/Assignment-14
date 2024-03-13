@@ -1,1 +1,75 @@
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
+
+
+public class App extends Application {
+    public void start(Stage primaryStage) {
+        primaryStage.setTitle("Metric Converter");
+
+        // Title and input
+        Label titleLabel = new Label("Metric Converter");
+        Label inputLabel = new Label("Enter a value:");
+
+        // Conversion
+        TextField inputField = new TextField();
+        ComboBox<String> conversionTypeComboBox = new ComboBox<>();
+        conversionTypeComboBox.getItems().addAll(
+            "Kilograms to Pounds", 
+            "Meters to Feet", 
+            "Celsius to Fahrenheit", 
+            "Seconds to Days"
+        );
+        conversionTypeComboBox.setPromptText("Select conversion type");
+
+        // Button
+        Button convertButton = new Button("Convert");
+        Label resultLabel = new Label();
+
+        convertButton.setOnAction(e -> {
+            // Inputs
+            String inputText = inputField.getText();
+            double inputValue = Double.parseDouble(inputText);
+            String selectedConversion = conversionTypeComboBox.getValue();
+            
+            double result;
+            
+            // Switch statement for options
+            switch (selectedConversion) {
+                case "Kilograms to Pounds":
+                    result = inputValue * 2.20462;
+                    resultLabel.setText("Result: " + result + " pounds");
+                    break;
+                case "Meters to Feet":
+                    result = inputValue * 3.28084;
+                    resultLabel.setText("Result: " + result + " feet");
+                    break;
+                case "Celsius to Fahrenheit":
+                result = (inputValue * 9/5) + 32;
+                resultLabel.setText("Result: " + result + " °F");
+                break;
+                case "Seconds to Days":
+                result = inputValue / 86400; // 86400 seconds in a day
+                resultLabel.setText("Result: " + result + " days");
+                break;
+                default:
+                    resultLabel.setText("Invalid conversion type");
+            }
+        });
+
+        // Creating the layout
+        VBox layout = new VBox(10);
+        layout.getChildren().addAll(titleLabel, inputLabel, inputField, conversionTypeComboBox, convertButton, resultLabel);
+
+        Scene scene = new Scene(layout, 300, 200);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+}
